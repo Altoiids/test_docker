@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in & Sign up Form</title>
+    <link rel="stylesheet" href="/static/css/user_home.css" />
+  </head>
+  <body>
+    <main>
+      <div class="box">
+        <div class="inner-box">
+          <div class="forms-wrap">
+
+            <form method="POST" action="/signUp" autocomplete="off" class="sign-in-form">
+              
+                
+              <h4>Luminex Library</h4>
+            
+
+            <div class="heading">
+              <h2>Get Started</h2>
+              <h6>Already have an account?</h6>
+              <a href="#" class="toggle">Sign in</a>
+            </div>
+
+            <div class="actual-form">
+              <div class="input-wrap">
+                <input
+                  type="name"
+                  name="name"
+                  minlength="4"
+                  class="input-field"
+                  autocomplete="off"
+                  required
+                />
+                <label>UserName</label>
+              </div>
+
+              <div class="input-wrap">
+                <input
+                  type="email"
+                  name="email"
+                  class="input-field"
+                  autocomplete="off"
+                  required
+                />
+                <label>Email</label>
+              </div>
+
+              <div class="input-wrap">
+                <input
+                  type="password"
+                  name="password"
+                  minlength="4"
+                  class="input-field"
+                  autocomplete="off"
+                  required
+                />
+                <label>Password</label>
+              </div>
+              <div class="input-wrap">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  minlength="4"
+                  class="input-field"
+                  autocomplete="off"
+                  required
+                />
+                <label>Confirm Password</label>
+              </div>
+
+              {{ if .Message }}
+              
+              <input type="hidden" name="error" id = "error" value="{{ .Message }}">
+      
+            
+              {{ end }}
+
+  
+              <button onclick="showErrorMessage()" class = "sign-btn">User SignUp</button>
+              <a href="/adminHome" class="toggle">Login as admin</a>
+              
+            </div>
+          </form>
+          
+            <form method="POST" action="/login" autocomplete="off" class="sign-up-form">
+              
+                <h1>Luminex Library</h1>
+              
+
+              <div class="heading">
+                <h3>Welcome Back</h3>
+                <h6>Not registred yet?</h6>
+                <a href="#" class="toggle">Sign up</a>
+              </div>
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input
+                    type="email"
+                    name = "loginEmail"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Email</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    name = "loginPassword"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Password</label>
+                </div>
+
+                {{ if .Message }}
+              
+              <input type="hidden" name="error" id = "error" value="{{ .Message }}">
+      
+            
+              {{ end }}
+
+  
+              <button onclick="showErrorMessage()" class = "sign-btn">User Login</button>
+
+            
+
+                <a href="/adminHome" class="toggle">Login as admin</a>
+              </div>
+            </form>
+
+           
+          </div>
+
+          <div class="carousel">
+            <div class="images-wrapper">
+            </div>
+
+            <div class="text-slider">
+              <div class="text-wrap">
+                <div class="text-group">
+                  <h2>Books help improving focus</h2>
+                  <h2>Books help reducing stress</h2>
+                  <h2>Books help improving sleep quality</h2>
+                </div>
+              </div>
+
+              <div class="bullets">
+                <span class="active" data-value="1"></span>
+                <span data-value="2"></span>
+                <span data-value="3"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+     
+
+
+
+
+        const inputs = document.querySelectorAll(".input-field");
+const toggle_btn = document.querySelectorAll(".toggle");
+const main = document.querySelector("main");
+const bullets = document.querySelectorAll(".bullets span");
+
+
+inputs.forEach((inp) => {
+  inp.addEventListener("focus", () => {
+    inp.classList.add("active");
+  });
+  inp.addEventListener("blur", () => {
+    if (inp.value != "") return;
+    inp.classList.remove("active");
+  });
+});
+
+toggle_btn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    main.classList.toggle("sign-up-mode");
+  });
+});
+
+function moveSlider() {
+  let index = this.dataset.value;
+
+  const textSlider = document.querySelector(".text-group");
+  textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
+
+  bullets.forEach((bull) => bull.classList.remove("active"));
+  this.classList.add("active");
+}
+
+bullets.forEach((bullet) => {
+  bullet.addEventListener("click", moveSlider);
+});
+
+const message = document.getElementById('error').value;
+
+function showErrorMessage() {
+  const errorMessage = document.getElementById("error").value;
+  if (errorMessage) {
+      alert(errorMessage); 
+      document.getElementById("error").value = '';
+     
+  }
+}
+window.onload = showErrorMessage;
+
+
+
+    </script>
+  </body>
+</html>

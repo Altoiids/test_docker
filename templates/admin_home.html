@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in & Sign up Form</title>
+    <link rel="stylesheet" href="/static/css/admin_home.css" />
+  </head>
+  <body>
+    
+    <main>
+      <div class="box">
+        <div class="inner-box">
+          <div class="forms-wrap">
+            <form method="POST" action="/adminHome" autocomplete="off" class="sign-in-form">
+              
+                <h1>Luminex Library</h1>
+              
+
+              <div class="heading">
+                <h3>Welcome Back Admin</h3>
+                
+              </div>
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input
+                    type="email"
+                    name = "loginEmail"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Email</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    name = "loginPassword"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Password</label>
+                </div>
+
+                {{ if .Message }}
+              
+                <input type="hidden" name="error" id = "error" value="{{ .Message }}">
+        
+              
+                {{ end }}
+  
+    
+                <button onclick="showErrorMessage()" class = "sign-btn">Admin Sign In</button>
+
+                <a href="/" class="toggle">Login as User</a>
+              </div>
+            </form>
+
+          
+          </div>
+
+          <div class="carousel">
+            <div class="images-wrapper">
+        
+            </div>
+
+            <div class="text-slider">
+              <div class="text-wrap">
+                <div class="text-group">
+                  <h2>Books help improving focus</h2>
+                  <h2>Books help reducing stress</h2>
+                  <h2>Books help improving sleep quality</h2>
+                </div>
+              </div>
+
+              <div class="bullets">
+                <span class="active" data-value="1"></span>
+                <span data-value="2"></span>
+                <span data-value="3"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+    
+const inputs = document.querySelectorAll(".input-field");
+const toggle_btn = document.querySelectorAll(".toggle");
+const main = document.querySelector("main");
+const bullets = document.querySelectorAll(".bullets span");
+
+
+inputs.forEach((inp) => {
+  inp.addEventListener("focus", () => {
+    inp.classList.add("active");
+  });
+  inp.addEventListener("blur", () => {
+    if (inp.value != "") return;
+    inp.classList.remove("active");
+  });
+});
+
+toggle_btn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    main.classList.toggle("sign-up-mode");
+  });
+});
+
+function moveSlider() {
+  let index = this.dataset.value;
+
+  const textSlider = document.querySelector(".text-group");
+  textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
+
+  bullets.forEach((bull) => bull.classList.remove("active"));
+  this.classList.add("active");
+}
+
+bullets.forEach((bullet) => {
+  bullet.addEventListener("click", moveSlider);
+});
+
+const message = document.getElementById('error').value;
+
+function showErrorMessage() {
+  const errorMessage = document.getElementById("error").value;
+  if (errorMessage) {
+      alert(errorMessage); // You can replace this with your custom popup implementation
+      document.getElementById("error").value = '';
+  }
+}
+
+// Call the showErrorMessage function on page load
+window.onload = showErrorMessage;
+
+
+    </script>
+  </body>
+</html>
